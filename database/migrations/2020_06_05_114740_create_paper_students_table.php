@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePapersStudentsTable extends Migration
+class CreatePaperStudentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreatePapersStudentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('papers_students', function (Blueprint $table) {
+        Schema::create('paper_students', function (Blueprint $table) {
             $table->id();
             $table->integer('student_id')->unsigned();
             $table->integer('paper_id')->unsigned();
@@ -30,6 +30,6 @@ class CreatePapersStudentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('papers_students');
+        Schema::dropIfExists('paper_students');
     }
 }

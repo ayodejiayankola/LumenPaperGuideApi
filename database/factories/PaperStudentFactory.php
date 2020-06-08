@@ -2,7 +2,7 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\Paper;
+use App\PaperStudent;
 use Faker\Generator as Faker;
 
 /*
@@ -16,9 +16,12 @@ use Faker\Generator as Faker;
 |
 */
 
-$factory->define(Paper::class, function (Faker $faker) {
+$factory->define(PaperStudent::class, function (Faker $faker) {
     return [
-        'name' => $faker->name,
-        'email' => $faker->email,
+        'student_id' => $faker->numberBetween(1,10),
+        'paper_id' => $faker->numberBetween(1,4),
+        'status_id' => $faker->numberBetween(1,10),
+        'score' => $faker->numberBetween(30,100),
+
     ];
 });

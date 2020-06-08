@@ -13,7 +13,6 @@ class PaperStudent extends Model
      * @var array
      */
     protected $fillable = [
-        'name',
         'student_id',
         'paper_id',
         'status_id',
