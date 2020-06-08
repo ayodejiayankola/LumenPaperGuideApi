@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Student;
 use App\Traits\ApiResponser;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 
 
 class StudentController extends Controller
@@ -19,13 +22,14 @@ class StudentController extends Controller
         //
     }
 
-    /**
+    /**s
      * Return a list of Student
      *
      * @return Illuminate\Http\Response
      */
     public function index(){
-
+        $students = Student::all();
+        return  $this->successResponse($students);
     }
     /**
      * Obtain and show one new Student
@@ -34,6 +38,8 @@ class StudentController extends Controller
      */
 
     public  function show($id){
+        $student= Student::findorfail($id);
+        return  $this->successResponse($student);
 
     }
     /**
@@ -42,6 +48,14 @@ class StudentController extends Controller
      * @return Illuminate\Http\Response
      */
     public function store(Request $request){
+        $rules=[
+            'name'=> 'required|max:255',
+            'paper_id'=> 'required|min:1',
+
+        ];
+        $this->validate($request,$rules);
+        $student = Student::create($request->all());
+        return  $this->successResponse($student, Response::HTTP_CREATED);
 
     }
     /**
@@ -50,6 +64,21 @@ class StudentController extends Controller
      * @return Illuminate\Http\Response
      */
     public function update(Request $request,$id){
+        $rules = [
+            'name'=> 'max:255',
+            'paper_id'=> 'min:1',
+        ];
+
+        $this->validate($request, $rules);
+        $name = Subject::findOrFail($id);
+        $name->fill($request->all());
+
+        if($name->isClean()){
+            return $this->errorResponse('At least one value must change', Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+        $name->save();
+        return $this->successResponse($id);
 
     }
 
@@ -59,6 +88,9 @@ class StudentController extends Controller
      * @return Illuminate\Http\Response
      */
     public function delete($id){
+        $student=Student::findorfail($id);
+        $student->delete();
+        return  $this->successResponse($id);
 
     }
 }

@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\PaperStudent;
 use App\Traits\ApiResponser;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 
 
 class PaperStudentController extends Controller
@@ -25,6 +28,8 @@ class PaperStudentController extends Controller
      * @return Illuminate\Http\Response
      */
     public function index(){
+        $paperStudents = PaperStudent::all();
+        return  $this->successResponse($paperStudents);
 
     }
     /**
@@ -34,6 +39,8 @@ class PaperStudentController extends Controller
      */
 
     public  function show($id){
+            $paperStudent= PaperStudent::findorfail($id);
+            return  $this->successResponse($paperStudent);
 
     }
     /**
@@ -42,7 +49,16 @@ class PaperStudentController extends Controller
      * @return Illuminate\Http\Response
      */
     public function store(Request $request){
+        $rules=[
+            'student_id'=> 'required|min:1',
+            'paper_id'=> 'required|min:1',
+            'status_id'=> 'required|min:1',
+            'score'=> 'required|max:100',
 
+        ];
+        $this->validate($request,$rules);
+        $paperStudent= PaperStudent::create($request->all());
+        return  $this->successResponse($paperStudent, Response::HTTP_CREATED);
     }
     /**
      * create on existing paperStudent
@@ -50,6 +66,25 @@ class PaperStudentController extends Controller
      * @return Illuminate\Http\Response
      */
     public function update(Request $request,$id){
+        $rules = [
+            'student_id'=> 'min:1',
+            'paper_id'=> 'min:1',
+            'status_id'=> 'min:1',
+            'score'=> 'max:100',
+        ];
+
+        $this->validate($request, $rules);
+        $paperStudent = PaperStudent::findOrFail($id);
+        $paperStudent->fill($request->all());
+
+        if($paperStudent->isClean()){
+            return $this->errorResponse('At least one value must change', Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+        $paperStudent->save();
+
+        return $this->successResponse($id);
+
 
     }
 
@@ -59,6 +94,9 @@ class PaperStudentController extends Controller
      * @return Illuminate\Http\Response
      */
     public function delete($id){
+        $paperStudent = PaperStudent::findorfail($id);
+        $paperStudent->delete();
+        return $this->successResponse($id);
 
     }
 }

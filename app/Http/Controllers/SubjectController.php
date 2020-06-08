@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Subject;
 use App\Traits\ApiResponser;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 
 
 class SubjectController extends Controller
@@ -25,7 +28,8 @@ class SubjectController extends Controller
      * @return Illuminate\Http\Response
      */
     public function index(){
-
+        $subjects = Subject::all();
+        return  $this->successResponse($subjects);
     }
     /**
      * Obtain and show one new Subject
@@ -34,6 +38,8 @@ class SubjectController extends Controller
      */
 
     public  function show($id){
+        $subject= Subject::findorfail($id);
+        return  $this->successResponse($subject);
 
     }
     /**
@@ -42,7 +48,13 @@ class SubjectController extends Controller
      * @return Illuminate\Http\Response
      */
     public function store(Request $request){
+        $rules=[
+            'name' => 'max:255',
 
+        ];
+        $this->validate($request,$rules);
+        $subject = Subject::create($request->all());
+        return  $this->successResponse($subject, Response::HTTP_CREATED);
     }
     /**
      * create on existing Subject
@@ -50,6 +62,21 @@ class SubjectController extends Controller
      * @return Illuminate\Http\Response
      */
     public function update(Request $request,$id){
+        $rules = [
+            'name'=> 'min:1',
+        ];
+
+        $this->validate($request, $rules);
+        $subject = Subject::findOrFail($id);
+        $subject->fill($request->all());
+
+        if($subject->isClean()){
+            return $this->errorResponse('At least one value must change', Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+        $subject->save();
+        return $this->successResponse($id);
+
 
     }
 
@@ -59,6 +86,8 @@ class SubjectController extends Controller
      * @return Illuminate\Http\Response
      */
     public function delete($id){
-
+        $subject=Subject::findorfail($id);
+        $subject->delete();
+        return  $this->successResponse($id);
     }
 }
