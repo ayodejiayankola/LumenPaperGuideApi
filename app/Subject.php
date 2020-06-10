@@ -17,4 +17,8 @@ class Subject extends Model
     protected $fillable = [
         'name',
     ];
+
+    public function question(){
+        return $this->hasMany(Question::class);
+    }
 }

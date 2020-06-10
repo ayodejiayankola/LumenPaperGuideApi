@@ -16,4 +16,7 @@ class Status extends Model
     protected $fillable = [
         'marked',
     ];
+  public function paperStudent(){
+      return $this->belongsTo(PaperStudent::class);
+  }
 }

@@ -16,4 +16,8 @@ class Paper extends Model
         'subject_id',
         'paper_type_id',
     ];
+
+    public function paperType() {
+        return $this->belongsTo(PaperType::class);
+    }
 }

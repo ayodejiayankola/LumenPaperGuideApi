@@ -18,4 +18,15 @@ class PaperStudent extends Model
         'status_id',
         'score',
     ];
+
+    public function student() {
+        return $this->belongsTo(Student::class);
+    }
+    public function paper() {
+        return $this->belongsTo(Paper::class);
+    }
+
+    public function status(){
+        return $this->hasOne(Status::class);
+    }
 }

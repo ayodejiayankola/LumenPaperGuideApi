@@ -111,7 +111,8 @@ class PaperStudentController extends Controller
 
     public function  markScript(){
 
+        }
 
 
-    }
+
 }

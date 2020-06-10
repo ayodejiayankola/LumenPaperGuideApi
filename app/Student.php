@@ -17,4 +17,9 @@ class Student extends Model
     protected $fillable = [
         'name',
     ];
+
+    public function paperStudent() {
+        return $this->hasOne(PaperStudent::class);
+    }
+
 }
