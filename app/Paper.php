@@ -20,4 +20,8 @@ class Paper extends Model
     public function paperType() {
         return $this->belongsTo(PaperType::class);
     }
+
+  public function subject(){
+        return $this->belongsTo(Subject::class);
+  }
 }

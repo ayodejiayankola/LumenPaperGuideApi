@@ -20,7 +20,6 @@ class Question extends Model
         'subject_id',
     ];
 
-
     public function subject() {
         return $this->belongsTo(Subject::class);
     }
