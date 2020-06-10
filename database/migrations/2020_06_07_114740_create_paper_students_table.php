@@ -18,7 +18,7 @@ class CreatePaperStudentsTable extends Migration
             $table->integer('student_id')->unsigned();
             $table->integer('paper_id')->unsigned();
             $table->integer('status_id')->unsigned();
-            $table->string('score', 100);
+            $table->string('score', 100)->nullable();
             $table->timestamps();
 
             $table->foreign('student_id')

@@ -88,8 +88,11 @@ class PaperStudentController extends Controller
 
     }
 
+
+
     /**
-     * Delete an existing paperStudent
+     * Delete an existing
+     * paperStudent
      *
      * @return Illuminate\Http\Response
      */
@@ -97,6 +100,18 @@ class PaperStudentController extends Controller
         $paperStudent = PaperStudent::findorfail($id);
         $paperStudent->delete();
         return $this->successResponse($id);
+
+    }
+
+    /**
+     * Marking a student paper
+     *
+     * @return Illuminate\Http\Response
+     */
+
+    public function  markScript(){
+
+
 
     }
 }
