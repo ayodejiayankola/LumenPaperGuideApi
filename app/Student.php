@@ -18,13 +18,4 @@ class Student extends Model
         'name',
         'paper_id',
     ];
-
-    /**
-     * The attributes excluded from the model's JSON form.
-     *
-     * @var array
-     */
-    protected $hidden = [
-        'password',
-    ];
 }

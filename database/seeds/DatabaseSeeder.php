@@ -18,12 +18,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        factory(Paper::class,10)->create();
-        factory(PaperStudent::class,10)->create();
-        factory(PaperType::class,10)->create();
-        factory(Question::class,10)->create();
-        factory(Status::class,10)->create();
-        factory(Student::class,10)->create();
         factory(Subject::class,10)->create();
+        factory(Status::class,10)->create();
+        factory(Question::class,10)->create();
+        factory(PaperType::class,10)->create();
+        factory(Paper::class,10)->create();
+        factory(Student::class,10)->create();
+        factory(PaperStudent::class,10)->create();
+
     }
 }

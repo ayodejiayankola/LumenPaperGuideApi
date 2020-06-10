@@ -14,12 +14,27 @@ class CreatePaperStudentsTable extends Migration
     public function up()
     {
         Schema::create('paper_students', function (Blueprint $table) {
-            $table->id();
+            $table->increments('id');
             $table->integer('student_id')->unsigned();
             $table->integer('paper_id')->unsigned();
             $table->integer('status_id')->unsigned();
             $table->string('score', 100);
             $table->timestamps();
+
+            $table->foreign('student_id')
+                ->references('id')
+                ->on('students')
+                ->onDelete('cascade');
+
+            $table->foreign('paper_id')
+                ->references('id')
+                ->on('papers')
+                ->onDelete('cascade');
+
+            $table->foreign('status_id')
+                ->references('id')
+                ->on('statuses')
+                ->onDelete('cascade');
         });
     }
 

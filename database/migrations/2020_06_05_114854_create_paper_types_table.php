@@ -14,9 +14,10 @@ class CreatePaperTypesTable extends Migration
     public function up()
     {
         Schema::create('paper_types', function (Blueprint $table) {
-            $table->id();
+            $table->increments('id');
             $table->string('name', 30);
             $table->timestamps();
+
         });
     }
 

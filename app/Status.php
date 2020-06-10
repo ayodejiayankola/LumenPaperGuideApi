@@ -16,13 +16,4 @@ class Status extends Model
     protected $fillable = [
         'marked',
     ];
-
-    /**
-     * The attributes excluded from the model's JSON form.
-     *
-     * @var array
-     */
-    protected $hidden = [
-        'password',
-    ];
 }
