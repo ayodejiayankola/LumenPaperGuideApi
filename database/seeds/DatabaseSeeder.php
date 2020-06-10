@@ -25,6 +25,5 @@ class DatabaseSeeder extends Seeder
         factory(Paper::class,10)->create();
         factory(Student::class,10)->create();
         factory(PaperStudent::class,10)->create();
-
     }
 }

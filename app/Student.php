@@ -16,6 +16,5 @@ class Student extends Model
      */
     protected $fillable = [
         'name',
-        'paper_id',
     ];
 }

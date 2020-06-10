@@ -16,13 +16,7 @@ class CreateStudentsTable extends Migration
         Schema::create('students', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name', 30)->unique();
-            $table->integer('paper_id')->unsigned();
             $table->timestamps();
-
-            $table->foreign('paper_id')
-                ->references('id')
-                ->on('papers')
-                ->onDelete('cascade');
         });
     }
 

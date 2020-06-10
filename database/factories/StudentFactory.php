@@ -19,6 +19,5 @@ use Faker\Generator as Faker;
 $factory->define(Student::class, function (Faker $faker) {
     return [
         'name' => $faker->name,
-        'paper_id' => $faker->numberBetween(1,4),
     ];
 });
