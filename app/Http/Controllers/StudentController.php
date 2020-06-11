@@ -70,7 +70,7 @@ class StudentController extends Controller
         ];
 
         $this->validate($request, $rules);
-        $name = Subject::findOrFail($id);
+        $name = Student::findOrFail($id);
         $name->fill($request->all());
 
         if($name->isClean()){
