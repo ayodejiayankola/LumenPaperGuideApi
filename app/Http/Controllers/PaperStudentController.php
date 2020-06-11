@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Paper;
 use App\PaperStudent;
 use App\Traits\ApiResponser;
 use Illuminate\Http\Request;
@@ -57,8 +58,29 @@ class PaperStudentController extends Controller
 
         ];
         $this->validate($request,$rules);
-        $paperStudent= PaperStudent::create($request->all());
-        return  $this->successResponse($paperStudent, Response::HTTP_CREATED);
+        $guide= PaperStudent::create($request->all());
+        $guide= PaperStudent::findorfail($guide['id']);
+        $submission = Paper::findorfail($guide['student_id']);
+        $results = array_map(function($guide, $submission){
+            $result = array();
+            $result['subject'] = $guide['subject'];
+            $result['total_questions'] = count($guide['questions']);
+            if(isset($submission)){
+                $result['answered'] = count($submission['questions']);
+                $result['score'] =  count(array_intersect($guide['answer'], $submission['answer']));
+                $result['marked'] = 1;
+
+            }else{
+                $result['answered'] = 0;
+                $result['score'] =  0;
+            }
+            $result['percentage'] = ($result['score']/$result['total_questions'])*100;
+            $submission->save();
+            $guide->save();
+            return  $this->successResponse($guide, Response::HTTP_CREATED);
+        },
+            $this->markingGuide->storage, $this->studentSubmission->storage);
+
     }
     /**
      * create on existing paperStudent

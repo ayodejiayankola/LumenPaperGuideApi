@@ -69,7 +69,7 @@ class QuestionController extends Controller
     public function update(Request $request,$id){
         $rules = [
             'question_no'=> 'max:100',
-            'answers'=> 'max:30',
+            'answer'=> 'max:30',
             'subject_id'=> 'min:1',
         ];
 
