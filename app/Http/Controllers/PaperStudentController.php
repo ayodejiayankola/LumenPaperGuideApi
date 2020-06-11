@@ -58,13 +58,9 @@ class PaperStudentController extends Controller
 
         ];
         $this->validate($request,$rules);
-        $guide= PaperStudent::create($request->all());
-        $guide= PaperStudent::findorfail($guide['id']);
-        $submission = Paper::findorfail($guide['student_id']);
-        $results = array_map(function($guide, $submission){
-            $result = array();
-            $result['subject'] = $guide['subject'];
-            $result['total_questions'] = count($guide['questions']);
+        $submission= PaperStudent::create($request->all());
+        $submission= PaperStudent::findorfail($submission['student_id']);
+        $guide = Paper::findorfail($submission['paper_type']);
             if(isset($submission)){
                 $result['answered'] = count($submission['questions']);
                 $result['score'] =  count(array_intersect($guide['answer'], $submission['answer']));
@@ -73,20 +69,19 @@ class PaperStudentController extends Controller
             }else{
                 $result['answered'] = 0;
                 $result['score'] =  0;
+                $result['marked'] = 0;
             }
             $result['percentage'] = ($result['score']/$result['total_questions'])*100;
             $submission->save();
             $guide->save();
             return  $this->successResponse($guide, Response::HTTP_CREATED);
-        },
-            $this->markingGuide->storage, $this->studentSubmission->storage);
-
     }
     /**
      * create on existing paperStudent
      *
      * @return Illuminate\Http\Response
      */
+
     public function update(Request $request,$id){
         $rules = [
             'student_id'=> 'min:1',
