@@ -16,7 +16,7 @@ class CreatePapersTable extends Migration
         Schema::create('papers', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('subject_id')->unsigned();
-            $table->integer('paper_type_id')->unsigned();
+            $table->string('paper_type', 30);
             $table->timestamps();
 
 
@@ -25,10 +25,6 @@ class CreatePapersTable extends Migration
                 ->on('subjects')
                 ->onDelete('cascade');
 
-            $table->foreign('paper_type_id')
-                ->references('id')
-                ->on('paper_types')
-                ->onDelete('cascade');
         });
     }
 

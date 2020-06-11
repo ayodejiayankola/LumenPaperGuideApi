@@ -20,7 +20,7 @@ $factory->define(PaperStudent::class, function (Faker $faker) {
     return [
         'student_id' => $faker->numberBetween(1,10),
         'paper_id' => $faker->numberBetween(1,4),
-        'status_id' => $faker->numberBetween(1,10),
+        'marked' => $faker->numberBetween(0,1),
         'score' => $faker->numberBetween(30,100),
 
     ];

@@ -19,6 +19,6 @@ use Faker\Generator as Faker;
 $factory->define(Paper::class, function (Faker $faker) {
     return [
         'subject_id' => $faker->numberBetween(1,4),
-        'paper_type_id' => $faker->numberBetween(1,2),
+        'paper_type' => $faker->randomElement($array = array ('Marking Guide','Student Paper')),
     ];
 });

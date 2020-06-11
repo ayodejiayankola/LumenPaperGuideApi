@@ -52,7 +52,8 @@ class PaperController extends Controller
     public function store(Request $request){
         $rules=[
             'subject_id'=> 'required|min:1',
-            'paper_type_id'=> 'required|min:1',
+            'paper_type'=> 'required|max:30',
+
 
         ];
         $this->validate($request,$rules);
@@ -67,7 +68,7 @@ class PaperController extends Controller
     public function update(Request $request,$id){
         $rules = [
             'subject_id'=> 'required|min:1',
-            'paper_type_id'=> 'required|min:1',
+            'paper_type'=> 'required|max:30',
         ];
 
         $this->validate($request, $rules);

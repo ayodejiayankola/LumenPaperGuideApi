@@ -15,7 +15,7 @@ class PaperStudent extends Model
     protected $fillable = [
         'student_id',
         'paper_id',
-        'status_id',
+        'marked',
         'score',
     ];
 
@@ -24,9 +24,5 @@ class PaperStudent extends Model
     }
     public function paper() {
         return $this->belongsTo(Paper::class);
-    }
-
-    public function status(){
-        return $this->hasOne(Status::class);
     }
 }

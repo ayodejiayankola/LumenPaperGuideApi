@@ -52,7 +52,7 @@ class PaperStudentController extends Controller
         $rules=[
             'student_id'=> 'required|min:1',
             'paper_id'=> 'required|min:1',
-            'status_id'=> 'required|min:1',
+            'marked'=> 'required|max:1',
             'score'=> 'required|max:100',
 
         ];
@@ -69,7 +69,7 @@ class PaperStudentController extends Controller
         $rules = [
             'student_id'=> 'min:1',
             'paper_id'=> 'min:1',
-            'status_id'=> 'min:1',
+            'marked'=> 'max:1',
             'score'=> 'max:100',
         ];
 
@@ -109,10 +109,11 @@ class PaperStudentController extends Controller
      * @return Illuminate\Http\Response
      */
 
-    public function  markScript(){
+    public function  markScript()
+    {
 
-        }
 
 
+    }
 
 }

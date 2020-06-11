@@ -19,7 +19,7 @@ use Faker\Generator as Faker;
 $factory->define(Question::class, function (Faker $faker) {
     return [
         'question_no' => $faker->numberBetween(1,100),
-        'answers' => $faker->randomElement($array = array ('a','b','c', 'd')),
+        'answer' => $faker->randomElement($array = array ('a','b','c', 'd')),
         'subject_id' => $faker->numberBetween(1,4),
 
     ];

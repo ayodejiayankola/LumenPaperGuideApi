@@ -50,7 +50,6 @@ class StudentController extends Controller
     public function store(Request $request){
         $rules=[
             'name'=> 'required|max:255',
-            'paper_id'=> 'required|min:1',
 
         ];
         $this->validate($request,$rules);
@@ -66,7 +65,6 @@ class StudentController extends Controller
     public function update(Request $request,$id){
         $rules = [
             'name'=> 'max:255',
-            'paper_id'=> 'min:1',
         ];
 
         $this->validate($request, $rules);

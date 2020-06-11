@@ -17,7 +17,7 @@ class CreatePaperStudentsTable extends Migration
             $table->increments('id');
             $table->integer('student_id')->unsigned();
             $table->integer('paper_id')->unsigned();
-            $table->integer('status_id')->unsigned();
+            $table->boolean('marked')->default(false);
             $table->string('score', 100)->nullable();
             $table->timestamps();
 
@@ -29,11 +29,6 @@ class CreatePaperStudentsTable extends Migration
             $table->foreign('paper_id')
                 ->references('id')
                 ->on('papers')
-                ->onDelete('cascade');
-
-            $table->foreign('status_id')
-                ->references('id')
-                ->on('statuses')
                 ->onDelete('cascade');
         });
     }
