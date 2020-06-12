@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Paper;
 use App\PaperStudent;
+use App\Question;
 use App\Traits\ApiResponser;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -30,18 +31,6 @@ class PaperStudentController extends Controller
      */
     public function index(){
         $paperStudents = PaperStudent::all();
-        return  $this->successResponse($paperStudents);
-
-    }
-    /**
-     * Obtain and show one new paperStudent
-     *
-     * @return Illuminate\Http\Response
-     */
-
-    public  function getStudentResult($id){
-            $paperStudent= PaperStudent::findorfail($id);
-            return  $this->successResponse($paperStudent);
 
     }
     /**
@@ -66,10 +55,12 @@ class PaperStudentController extends Controller
         $rules=[
             'student_id'=> 'required|min:1',
             'paper_id'=> 'required|min:1',
+            'question_id'=> 'required|min:1',
         ];
 
         $this->validate($request,$rules);
         $studentSubmission = PaperStudent::create($request->all());
+        $studentSubmission = Question::create($request->all());
         return  $this->successResponse($studentSubmission, Response::HTTP_CREATED);
 
 
@@ -83,8 +74,8 @@ class PaperStudentController extends Controller
 
     public function markStudentPaper(){
 
-        $submission= PaperStudent::create($request->all());
-        $submission= PaperStudent::findorfail($submission['student_id']);
+        $submission= $this->getStudentResult();
+        $submission= $this->getMarkingGuide();
         $guide = Paper::findorfail($submission['paper_type']);
         if(isset($submission)){
             $result['answered'] = count($submission['questions']);
