@@ -31,7 +31,7 @@ class PaperStudentController extends Controller
      */
     public function index(){
         $paperStudents = PaperStudent::all();
-
+        return  $this->successResponse($paperStudents);
     }
     /**
      * create a specific marking guide
@@ -42,7 +42,6 @@ class PaperStudentController extends Controller
     public function  getMarkingGuide($id){
         $paperStudent= Paper::findorfail($id);
         return  $this->successResponse($paperStudent);
-
     }
 
     /**
@@ -50,18 +49,19 @@ class PaperStudentController extends Controller
      *
      * @return Illuminate\Http\Response
      */
-
-    public function storeStudentSubmission(Request $request){
+    public function store(Request $request){
         $rules=[
             'student_id'=> 'required|min:1',
             'paper_id'=> 'required|min:1',
-            'question_id'=> 'required|min:1',
         ];
-
         $this->validate($request,$rules);
-        $studentSubmission = PaperStudent::create($request->all());
-        $studentSubmission = Question::create($request->all());
-        return  $this->successResponse($studentSubmission, Response::HTTP_CREATED);
+        $paper = PaperStudent::create($request->all());
+        return  $this->successResponse($paper, Response::HTTP_CREATED);
+    }
+    public function getStudentSubmission( $id){
+        $studentSubmission = PaperStudent::findorfail($id);
+        return  $this->successResponse($studentSubmission );
+
 
 
     }
@@ -74,10 +74,9 @@ class PaperStudentController extends Controller
 
     public function markStudentPaper(){
 
-        $submission= $this->getStudentResult();
-        $submission= $this->getMarkingGuide();
-        $guide = Paper::findorfail($submission['paper_type']);
-        if(isset($submission)){
+        $submission= $this->getStudentSubmission();
+        $guide= $this->getMarkingGuide();
+        if($submission){
             $result['answered'] = count($submission['questions']);
             $result['score'] =  count(array_intersect($guide['answer'], $submission['answer']));
             $result['marked'] = 1;
