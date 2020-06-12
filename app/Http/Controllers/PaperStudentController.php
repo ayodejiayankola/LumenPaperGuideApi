@@ -45,7 +45,7 @@ class PaperStudentController extends Controller
 
     }
     /**
-     * create on new paperStudent
+     * create a specific marking guide
      *
      * @return Illuminate\Http\Response
      */
@@ -55,6 +55,13 @@ class PaperStudentController extends Controller
         return  $this->successResponse($paperStudent);
 
     }
+
+    /**
+     * store a student submission
+     *
+     * @return Illuminate\Http\Response
+     */
+
     public function storeStudentSubmission(Request $request){
         $rules=[
             'student_id'=> 'required|min:1',
@@ -67,6 +74,13 @@ class PaperStudentController extends Controller
 
 
     }
+
+    /**
+     * mark script
+     *
+     * @return Illuminate\Http\Response
+     */
+
     public function markStudentPaper(){
 
         $submission= PaperStudent::create($request->all());
