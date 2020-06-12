@@ -39,7 +39,7 @@ class PaperStudentController extends Controller
      * @return Illuminate\Http\Response
      */
 
-    public  function show($id){
+    public  function getStudentResult($id){
             $paperStudent= PaperStudent::findorfail($id);
             return  $this->successResponse($paperStudent);
 
@@ -49,88 +49,58 @@ class PaperStudentController extends Controller
      *
      * @return Illuminate\Http\Response
      */
-    public function store(Request $request){
+
+    public function  getMarkingGuide($id){
+        $paperStudent= Paper::findorfail($id);
+        return  $this->successResponse($paperStudent);
+
+    }
+    public function storeStudentSubmission(Request $request){
         $rules=[
             'student_id'=> 'required|min:1',
             'paper_id'=> 'required|min:1',
-            'marked'=> 'required|max:1',
-            'score'=> 'required|max:100',
-
         ];
+
         $this->validate($request,$rules);
+        $studentSubmission = PaperStudent::create($request->all());
+        return  $this->successResponse($studentSubmission, Response::HTTP_CREATED);
+
+
+    }
+    public function markStudentPaper(){
+
         $submission= PaperStudent::create($request->all());
         $submission= PaperStudent::findorfail($submission['student_id']);
         $guide = Paper::findorfail($submission['paper_type']);
-            if(isset($submission)){
-                $result['answered'] = count($submission['questions']);
-                $result['score'] =  count(array_intersect($guide['answer'], $submission['answer']));
-                $result['marked'] = 1;
-
-            }else{
-                $result['answered'] = 0;
-                $result['score'] =  0;
-                $result['marked'] = 0;
-            }
-            $result['percentage'] = ($result['score']/$result['total_questions'])*100;
-            $submission->save();
-            $guide->save();
-            return  $this->successResponse($guide, Response::HTTP_CREATED);
-    }
-    /**
-     * create on existing paperStudent
-     *
-     * @return Illuminate\Http\Response
-     */
-
-    public function update(Request $request,$id){
-        $rules = [
-            'student_id'=> 'min:1',
-            'paper_id'=> 'min:1',
-            'marked'=> 'max:1',
-            'score'=> 'max:100',
-        ];
-
-        $this->validate($request, $rules);
-        $paperStudent = PaperStudent::findOrFail($id);
-        $paperStudent->fill($request->all());
-
-        if($paperStudent->isClean()){
-            return $this->errorResponse('At least one value must change', Response::HTTP_UNPROCESSABLE_ENTITY);
+        if(isset($submission)){
+            $result['answered'] = count($submission['questions']);
+            $result['score'] =  count(array_intersect($guide['answer'], $submission['answer']));
+            $result['marked'] = 1;
+        }else{
+            $result['answered'] = 0;
+            $result['score'] =  0;
+            $result['marked'] = 0;
         }
+        $result['percentage'] = ($result['score']/$result['total_questions'])*100;
+        $submission->save();
+        $guide->save();
+        return  $this->successResponse($guide, Response::HTTP_CREATED);
 
-        $paperStudent->save();
-
-        return $this->successResponse($id);
 
 
     }
 
-
-
-    /**
-     * Delete an existing
-     * paperStudent
-     *
-     * @return Illuminate\Http\Response
-     */
-    public function delete($id){
-        $paperStudent = PaperStudent::findorfail($id);
-        $paperStudent->delete();
+    public function deleteStudentResult($id){
+        $paper= PaperStudent::findorfail($id);
+        $paper->delete();
         return $this->successResponse($id);
 
     }
 
-    /**
-     * Marking a student paper
-     *
-     * @return Illuminate\Http\Response
-     */
-
-    public function  markScript()
-    {
 
 
 
-    }
+
+
 
 }

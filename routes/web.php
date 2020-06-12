@@ -28,11 +28,11 @@ $router->delete('/papers/{id}', 'PaperController@delete');
 
 //PaperStudent Route
 $router->get('/paperStudents', 'PaperStudentController@index');
-$router->get('/paperStudents/{id}', 'PaperStudentController@show');
-$router->post('/paperStudents', 'PaperStudentController@store');
-$router->put('/paperStudents/{id}', 'PaperStudentController@update');
-$router->patch('/paperStudents/{id}', 'PaperStudentController@update');
-$router->delete('/paperStudents/{id}', 'PaperStudentController@delete');
+$router->get('/paperStudents/{id}', 'PaperStudentController@getStudentResult');
+$router->post('/paperStudents/{id}', 'PaperStudentController@getMarkingGuide');
+$router->put('/paperStudents/', 'PaperStudentController@storeStudentSubmission');
+$router->patch('/paperStudents/{id}', 'PaperStudentController@markStudentPaper');
+$router->delete('/paperStudents/{id}', 'PaperStudentController@deleteStudentResult');
 
 
 //PaperType Route
