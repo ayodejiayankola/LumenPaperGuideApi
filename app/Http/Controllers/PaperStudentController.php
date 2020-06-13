@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Paper;
-use App\PaperStudent;
 use App\Question;
+use App\PaperStudent;
 use App\Traits\ApiResponser;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Builder;
 
 
 class PaperStudentController extends Controller
@@ -34,16 +36,22 @@ class PaperStudentController extends Controller
         return  $this->successResponse($paperStudents);
     }
     /**
-     * create a specific marking guide
+     * get a specific marking guide
      *
      * @return Illuminate\Http\Response
      */
-
-    public function  getMarkingGuide($id){
-        $paperStudent= Paper::findorfail($id);
-        return  $this->successResponse($paperStudent);
+    public function markingGuides(){
+        return $this->successResponse($this->getQuestions(Paper::TYPE_GUIDE));
     }
 
+    /**
+     * get a specific student submission
+     *
+     * @return Illuminate\Http\Response
+     */
+    public function submissions(){
+        return $this->successResponse($this->getQuestions(Paper::TYPE_SUBMISSION));
+    }
     /**
      * store a student submission
      *
@@ -58,40 +66,41 @@ class PaperStudentController extends Controller
         $paper = PaperStudent::create($request->all());
         return  $this->successResponse($paper, Response::HTTP_CREATED);
     }
-    public function getStudentSubmission( $id){
-        $studentSubmission = PaperStudent::findorfail($id);
-        return  $this->successResponse($studentSubmission );
+    /**
+     * get specific question
+     *
+     * @return Illuminate\Http\Response
+     */
 
-
-
+    private function getQuestions($type){
+        return Paper::where('paper_type', $type)->firstorfail()->questions;
     }
+
 
     /**
      * mark script
      *
      * @return Illuminate\Http\Response
      */
+    private function mark($student_id, $question_id){
+        $paper = Paper::where('paper_type', Paper::TYPE_SUBMISSION)->firstorfail();
+        $guides =  $this->getQuestions(Paper::TYPE_GUIDE);
+        $submissions =  $this->getQuestions(Paper::TYPE_SUBMISSION);
+        $correct = 0;
 
-    public function markStudentPaper(){
-
-        $submission= $this->getStudentSubmission();
-        $guide= $this->getMarkingGuide();
-        if($submission){
-            $result['answered'] = count($submission['questions']);
-            $result['score'] =  count(array_intersect($guide['answer'], $submission['answer']));
-            $result['marked'] = 1;
-        }else{
-            $result['answered'] = 0;
-            $result['score'] =  0;
-            $result['marked'] = 0;
+        foreach($submissions as $submission){
+            if($submission->is_answer_correct){
+                $correct++;
+            }
         }
-        $result['percentage'] = ($result['score']/$result['total_questions'])*100;
-        $submission->save();
-        $guide->save();
-        return  $this->successResponse($guide, Response::HTTP_CREATED);
+        $score = ($correct/$guides->count())*100;
 
-
-
+        return  $paper->paperStudent()->create([
+            'student_id' => $student_id,
+            'question_id' => $question_id, 
+            'marked' => true,
+            'score' => $score
+        ]);
     }
 
     public function deleteStudentResult($id){
@@ -100,11 +109,6 @@ class PaperStudentController extends Controller
         return $this->successResponse($id);
 
     }
-
-
-
-
-
 
 
 }
