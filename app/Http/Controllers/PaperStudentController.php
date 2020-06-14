@@ -26,6 +26,7 @@ class PaperStudentController extends Controller
         //
     }
 
+
     /**
      * Return a list of paperStudent
      *
@@ -34,6 +35,16 @@ class PaperStudentController extends Controller
     public function index(){
         $paperStudents = PaperStudent::all();
         return  $this->successResponse($paperStudents);
+    }
+
+    /**
+     * get specific question
+     *
+     * @return Illuminate\Http\Response
+     */
+
+    private function getQuestions($type){
+        return Paper::where('paper_type', $type)->firstorfail()->questions;
     }
     /**
      * get a specific marking guide
@@ -66,15 +77,7 @@ class PaperStudentController extends Controller
         $paper = PaperStudent::create($request->all());
         return  $this->successResponse($paper, Response::HTTP_CREATED);
     }
-    /**
-     * get specific question
-     *
-     * @return Illuminate\Http\Response
-     */
 
-    private function getQuestions($type){
-        return Paper::where('paper_type', $type)->firstorfail()->questions;
-    }
 
 
     /**
