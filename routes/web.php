@@ -32,17 +32,9 @@ $router->get('/paperStudents/{id}', 'PaperStudentController@getStudentResult');
 $router->get('/guides', 'PaperStudentController@markingGuides');
 $router->get('/submissions', 'PaperStudentController@submissions');
 $router->get('/mark', 'PaperStudentController@markSubmissions');
-$router->delete('/paperStudents/{id}', 'PaperStudentController@deleteStudentResult');
+$router->delete('/paperStudents/{id}', 'PaperStudentController@deleteStudentRecord');
 
 
-
-//PaperType Route
-$router->get('/paperTypes', 'PaperTypeController@index');
-$router->get('/paperTypes/{id}', 'PaperTypeController@show');
-$router->post('/paperTypes', 'PaperTypeController@store');
-$router->put('/paperType/{id}', 'PaperTypeController@update');
-$router->patch('/paperType/{id}', 'PaperTypeController@update');
-$router->delete('/paperType/{id}', 'PaperTypeController@delete');
 
 
 //Question
@@ -52,17 +44,6 @@ $router->post('/questions', 'QuestionController@store');
 $router->put('/questions/{id}', 'QuestionController@update');
 $router->patch('/questions/{id}', 'QuestionController@update');
 $router->delete('/questions/{id}', 'QuestionController@delete');
-
-
-
-//Status Route
-$router->get('/statuses', 'StatusController@index');
-$router->get('/statuses/{id}', 'StatusController@show');
-$router->post('/statuses', 'StatusController@store');
-$router->put('/statuses/{id}', 'StatusController@update');
-$router->patch('/statuses/{id}', 'StatusController@update');
-$router->delete('/statuses/{id}', 'StatusController@delete');
-
 
 
 //Student Route

@@ -70,7 +70,7 @@ class PaperStudentController extends Controller
      * get specific question
      *
      * @return Illuminate\Http\Response
-     */
+     *
 
     private function getQuestions($type){
         return Paper::where('paper_type', $type)->firstorfail()->questions;
@@ -97,13 +97,13 @@ class PaperStudentController extends Controller
 
         return  $paper->paperStudent()->create([
             'student_id' => $student_id,
-            'question_id' => $question_id, 
+            'question_id' => $question_id,
             'marked' => true,
             'score' => $score
         ]);
     }
 
-    public function deleteStudentResult($id){
+    public function deleteStudentRecord($id){
         $paper= PaperStudent::findorfail($id);
         $paper->delete();
         return $this->successResponse($id);
