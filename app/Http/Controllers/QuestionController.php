@@ -53,6 +53,7 @@ class QuestionController extends Controller
             'question_no'=> 'required|max:100',
             'answers'=> 'required|max:30',
             'subject_id'=> 'required|min:1',
+            'paper_id'=> 'required|min:1',
 
         ];
         $this->validate($request,$rules);
@@ -71,6 +72,7 @@ class QuestionController extends Controller
             'question_no'=> 'max:100',
             'answer'=> 'max:30',
             'subject_id'=> 'min:1',
+            'paper_id'=> 'min:1',
         ];
 
         $this->validate($request, $rules);
