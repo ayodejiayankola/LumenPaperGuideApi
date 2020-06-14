@@ -70,7 +70,7 @@ class PaperStudentController extends Controller
      * get specific question
      *
      * @return Illuminate\Http\Response
-     *
+     */
 
     private function getQuestions($type){
         return Paper::where('paper_type', $type)->firstorfail()->questions;
