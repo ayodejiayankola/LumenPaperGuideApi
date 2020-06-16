@@ -85,7 +85,7 @@ class SubjectController extends Controller
      *
      * @return Illuminate\Http\Response
      */
-    public function delete($id){
+    public function deleteSubject($id){
         $subject=Subject::findorfail($id);
         $subject->delete();
         return  $this->successResponse($id);
